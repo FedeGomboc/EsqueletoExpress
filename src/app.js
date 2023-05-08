@@ -6,12 +6,16 @@ const app = express()
 
 //app.use(routes)
 
-app.get('/:id', (req, res) =>{
-    let svc = new PizzaService()
+let svc = new PizzaService()
+
+app.get('/getall', (req, res) =>{
+    let listaPizzas = svc.getAll()
+    listaPizzas.then((resp) => {res.send(resp)})
+})
+
+app.get('/getbyid/:id', (req, res) =>{
     let respuesta = svc.getById(req.params.id)
     respuesta.then((resp) => {res.send(resp)})
-  //console.log(respuesta)
-//   res.send(respuesta)
 })
 
 app.post('/', (req, res) =>{
