@@ -1,12 +1,11 @@
+import PizzaService from "../services/pizzas-services.js";
+
 const controller = {};
 
 controller.index = (req, res) => {
-  let obj = {
-    nombre: "Elvis",
-    edad: 50,
-    casado: true,
-  };
-  res.send(obj);
+  let svc = new PizzaService()
+  let respuesta = svc.getById(req.params.id)
+  res.send(respuesta)
 };
 
 export default controller;
