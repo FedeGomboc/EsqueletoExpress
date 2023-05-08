@@ -60,14 +60,14 @@ class PizzaService {
         try{
             let pool = await sql.connect(config);
             let result = await pool.request()
-                                .input('Id', sql.int, pizza.id)
-                                .input('Nombre', sql.VarChar, pizza.nombre)
-                                .input('LibreGluten', sql.Bit, pizza.libreGluten)
-                                .input('Importe', sql.Float, pizza.importe)
-                                .input('Descripcion', sql.VarChar, pizza.descripcion)
+                                .input('Id', sql.Int, pizza.Id)
+                                .input('Nombre', sql.VarChar, pizza.Nombre)
+                                .input('LibreGluten', sql.Bit, pizza.LibreGluten)
+                                .input('Importe', sql.Float, pizza.Importe)
+                                .input('Descripcion', sql.VarChar, pizza.Descripcion)
                                 .query('UPDATE Pizzas SET Nombre = @Nombre, LibreGluten = @LibreGluten, Importe = @Importe, Descripcion = @Descripcion WHERE Id = @Id');
             rowsAffected = result.rowsAffected;
-            console.log('Pizza creada')
+            console.log('Pizza actualizada')
 
         } catch (error){
             console.log(error)

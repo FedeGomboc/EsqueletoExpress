@@ -1,9 +1,9 @@
 class Pizza {
-    id;
-    nombre;
-    libreGluten;
-    importe;
-    descripcion;
+    Id;
+    Nombre;
+    LibreGluten;
+    Importe;
+    Descripcion;
     constructor(Nombre, LibreGluten, Importe, Descripcion){
         this.Nombre = Nombre
         this.LibreGluten = LibreGluten
