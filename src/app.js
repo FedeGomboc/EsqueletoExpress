@@ -20,11 +20,11 @@ app.get('/getbyid/:id', (req, res) => {
 })
 
 app.post('/insert', (req, res) => {
-    let pizzaNueva = new Pizza();
-    pizzaNueva.Nombre = 'Pizza de anchoas';
-    pizzaNueva.LibreGluten = false;
-    pizzaNueva.Importe = 12345;
-    pizzaNueva.Descripcion = "Pizza con anchoas capo, que  sos? lucho?";
+    let pizzaNueva = new Pizza()
+    pizzaNueva.Nombre = req.body.Nombre
+    pizzaNueva.LibreGluten = req.body.LibreGluten
+    pizzaNueva.Importe = req.body.Importe
+    pizzaNueva.Descripcion = req.body.Descripcion
     let respuesta = svc.insert(pizzaNueva)
     respuesta.then((resp) => { res.send("Pizza creada")})
 })
@@ -36,7 +36,6 @@ app.put('/update', (req, res) => {
     pizzaNueva.LibreGluten = req.body.LibreGluten;
     pizzaNueva.Importe = req.body.Importe;
     pizzaNueva.Descripcion = req.body.Descripcion;
-    console.log(pizzaNueva);
     let respuesta = svc.update(pizzaNueva)
     respuesta.then((resp) => { res.send("Pizza actualizada")})
 })
