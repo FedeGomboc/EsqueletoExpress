@@ -41,6 +41,11 @@ app.put('/update', (req, res) => {
     respuesta.then((resp) => { res.send("Pizza actualizada")})
 })
 
+app.delete('/delete/:id', (req, res) => {
+    let respuesta = svc.deleteById(req.params.id)
+    respuesta.then((resp) => { res.send("Pizza eliminada") })
+})
+
 app.listen(3000, () => {
     console.log("Servidor a la espera de conexiones")
 })  
