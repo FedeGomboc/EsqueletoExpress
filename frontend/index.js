@@ -7,9 +7,8 @@ function GetAll() {
             document.querySelector("#listado").innerHTML = ""
             pizzas.map((pizza, index) => {
                 const { Id, Nombre, LibreGluten, Importe, Descripcion } = pizza
-            
-                
-            document.querySelector("#listado").innerHTML += `
+
+                document.querySelector("#listado").innerHTML += `
                 <ul>ID: ${Id}</ul>
                 <ul>Nombre: ${Nombre}</ul>
                 <ul>Libre de gluten: ${LibreGluten}</ul>
@@ -25,7 +24,6 @@ function GetAll() {
 }
 
 function GetById() {
-
     let url = "http://localhost:3000/getbyid/" + id.value
 
     axios
@@ -45,4 +43,8 @@ function GetById() {
         .catch((error) => {
             console.log(error)
         })
+}
+
+function Insert() {
+    
 }
