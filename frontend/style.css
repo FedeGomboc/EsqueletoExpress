@@ -1,0 +1,34 @@
+.columna {
+    float: left;
+    margin-left: 40px;
+    margin-right:40px ;
+    margin-bottom: 40px;
+    padding-right: 5px;
+   
+  }
+  .centerr
+  {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .fondo
+  {
+    background-image: linear-gradient(to top, #fbf8d7, #fe7a7a, #ff5555);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+
+  .rounded {
+    border-radius: 17px !important;
+}
+
+@font-face {
+    font-family: myFirstFont;
+    src: url(./src/fonts/Starborn.ttf);
+}
+
+* {
+    font-family: myFirstFont;
+}

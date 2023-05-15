@@ -1,10 +1,11 @@
 import express from "express";
-import routes from "./routes/index.routes.js"
+import cors from  'cors'
 import PizzaService from "./services/pizzas-services.js";
 import Pizza from "./models/pizza.js"
 
 const app = express()
 app.use(express.json());
+app.use(cors());
 //app.use(routes)
 
 let svc = new PizzaService()
