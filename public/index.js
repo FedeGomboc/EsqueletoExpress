@@ -46,5 +46,5 @@ function GetById() {
 }
 
 function Insert() {
-    
+    let url = "http://localhost:3000/insert"
 }

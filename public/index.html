@@ -21,6 +21,15 @@
         <br/>
         <input type="number" id="id" placeholder="Ingrese ID de pizza a buscar"/>
         <button class="rounded btn-lg" id="boton" onclick="GetById()"> Get By ID </button>
+        <br />
+        <form>
+          <b>CREAR PIZZA</b>
+          <input type="text" id="nombrePizza" placeholder="Nombre"/>
+          <input type="number" max="1" min="0" id="glutenPizza" placeholder="Libre de gluten" />
+          <input type="number" id="importePizza" placeholder="Importe" />
+          <input type="text" id="descripcionPizza" placeholder="Descripcion" />
+          <button class="rounded btn-lg" id="boton" onclick="Insert()"> Insert </button>
+        </form>
         </center>
 
         <ul id="listado"></ul>
