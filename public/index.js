@@ -47,4 +47,24 @@ function GetById() {
 
 function Insert() {
     let url = "http://localhost:3000/insert"
+
+    const parametros = JSON.stringify({
+        "Nombre": nombrePizza,
+        "LibreGluten": glutenPizza,
+        "Importe": importePizza,
+        "Descripcion": descripcionPizza
+    })
+
+    axios
+    .post(url, parametros)
+    .then((result) => {
+        console.log(parametros)
+        console.log(result.data)
+        document.querySelector("#listado").innerHTML = ""
+        document.querySelector("#listado").innerHTML += `<p>La pizza ha sido creada</p>`
+    }) 
+    .catch((error) => {
+        console.log(error)
+    })
+
 }
