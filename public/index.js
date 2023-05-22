@@ -49,10 +49,10 @@ function Insert() {
     let url = "http://localhost:3000/insert"
 
     const parametros = JSON.stringify({
-        "Nombre": nombrePizza,
-        "LibreGluten": glutenPizza,
-        "Importe": importePizza,
-        "Descripcion": descripcionPizza
+        "Nombre": document.querySelector("#nombrePizza").value,
+        "LibreGluten": document.querySelector("#glutenPizza").value,
+        "Importe": document.querySelector("#importePizza").value,
+        "Descripcion": document.querySelector("#descripcionPizza").value
     })
 
     axios

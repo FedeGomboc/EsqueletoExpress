@@ -3,7 +3,7 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Api de Pizzas</title>
+    <title>API de Pizzas</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
 
     <link rel="stylesheet" type="text/css" href="style.css" />
@@ -22,13 +22,13 @@
         <input type="number" id="id" placeholder="Ingrese ID de pizza a buscar"/>
         <button class="rounded btn-lg" id="boton" onclick="GetById()"> Get By ID </button>
         <br />
-        <form>
+        <form onsubmit="Insert()">
           <b>CREAR PIZZA</b>
           <input type="text" id="nombrePizza" placeholder="Nombre"/>
           <input type="number" max="1" min="0" id="glutenPizza" placeholder="Libre de gluten" />
           <input type="number" id="importePizza" placeholder="Importe" />
           <input type="text" id="descripcionPizza" placeholder="Descripcion" />
-          <button class="rounded btn-lg" id="boton" onclick="Insert()"> Insert </button>
+          <button type="submit" class="rounded btn-lg" id="boton"> Insert </button>
         </form>
         </center>
 
