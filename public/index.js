@@ -1,6 +1,6 @@
 function GetAll() {
     axios
-        .get("http://localhost:3000/getall")
+        .get("http://localhost:3000/api/pizzas/")
         .then((result) => {
             const pizzas = result.data
 
@@ -24,7 +24,7 @@ function GetAll() {
 }
 
 function GetById() {
-    let url = "http://localhost:3000/getbyid/" + id.value
+    let url = "http://localhost:3000/api/pizzas/" + id.value
 
     axios
         .get(url)
@@ -46,25 +46,61 @@ function GetById() {
 }
 
 function Insert() {
-    let url = "http://localhost:3000/insert"
+    let url = "http://localhost:3000/api/pizzas/"
 
-    const parametros = JSON.stringify({
-        "Nombre": document.querySelector("#nombrePizza").value,
-        "LibreGluten": document.querySelector("#glutenPizza").value,
-        "Importe": document.querySelector("#importePizza").value,
-        "Descripcion": document.querySelector("#descripcionPizza").value
-    })
+    const parametros = {
+        Nombre: document.getElementById("nombrePizza").value,
+        LibreGluten: document.getElementById("glutenPizza").value,
+        Importe: document.getElementById("importePizza").value,
+        Descripcion: document.getElementById("descripcionPizza").value
+    }
 
     axios
-    .post(url, parametros)
-    .then((result) => {
-        console.log(parametros)
-        console.log(result.data)
-        document.querySelector("#listado").innerHTML = ""
-        document.querySelector("#listado").innerHTML += `<p>La pizza ha sido creada</p>`
-    }) 
-    .catch((error) => {
-        console.log(error)
-    })
+        .post(url, parametros)
+        .then(() => {
+            document.querySelector("#listado").innerHTML = ""
+            document.querySelector("#listado").innerHTML += `<p>La pizza ha sido creada</p>`
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+    return false;
+}
 
+function Update() {
+    let url = "http://localhost:3000/api/pizzas/"
+
+    const parametros = {
+        Id: document.getElementById("updateId").value,
+        Nombre: document.getElementById("updateNombre").value,
+        LibreGluten: document.getElementById("updateGluten").value,
+        Importe: document.getElementById("updateImporte").value,
+        Descripcion: document.getElementById("updateDescripcion").value
+    }
+
+    axios
+        .put(url, parametros)
+        .then(() => {
+            document.querySelector("#listado").innerHTML = ""
+            document.querySelector("#listado").innerHTML += `<p>La pizza ha sido actualizada</p>`
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+    return false
+}
+
+function Delete() {
+    let url = "http://localhost:3000/api/pizzas/" + deleteId.value
+
+    axios
+        .delete(url)
+        .then(() => {
+            document.querySelector("#listado").innerHTML = ""
+            document.querySelector("#listado").innerHTML += `<p>La pizza ha sido eliminada</p>`
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+    return false
 }

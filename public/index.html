@@ -17,12 +17,15 @@
 </head>
 <body>
         <center class="pt-3">
+
         <button class="rounded btn-lg" id="boton" onclick="GetAll()"> Get All </button>
         <br/>
-        <input type="number" id="id" placeholder="Ingrese ID de pizza a buscar"/>
+
+        <input type="number" id="id" placeholder="ID de pizza a buscar"/>
         <button class="rounded btn-lg" id="boton" onclick="GetById()"> Get By ID </button>
-        <br />
-        <form onsubmit="Insert()">
+        <br />  
+
+        <form onsubmit="return Insert();">
           <b>CREAR PIZZA</b>
           <input type="text" id="nombrePizza" placeholder="Nombre"/>
           <input type="number" max="1" min="0" id="glutenPizza" placeholder="Libre de gluten" />
@@ -30,10 +33,22 @@
           <input type="text" id="descripcionPizza" placeholder="Descripcion" />
           <button type="submit" class="rounded btn-lg" id="boton"> Insert </button>
         </form>
-        </center>
 
+        <form onsubmit="return Update();">
+          <b>ACTUALIZAR PIZZA</b>
+          <input type="number" id="updateId" placeholder="ID" />
+          <input type="text" id="updateNombre" placeholder="Nombre"/>
+          <input type="number" max="1" min="0" id="updateGluten" placeholder="Libre de gluten" />
+          <input type="number" id="updateImporte" placeholder="Importe" />
+          <input type="text" id="updateDescripcion" placeholder="Descripcion" />
+          <button type="submit" class="rounded btn-lg" id="boton"> Update </button>
+        </form>
+        
+        <input type="number" id="deleteId" placeholder="ID de pizza a eliminar"/>
+        <button class="rounded btn-lg" id="boton" onclick="Delete()"> Delete </button>
+        
         <ul id="listado"></ul>
-
+      </center>
 
 
       <script src="index.js"></script>
