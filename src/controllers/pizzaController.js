@@ -1,6 +1,6 @@
-import { Router } from "express";
-import PizzaService from "./../services/pizzas-services.js";
-import { StatusCodes } from "http-status-codes";
+import { Router } from "express"
+import PizzaService from "./../services/pizzas-services.js"
+import { StatusCodes } from "http-status-codes"
 
 const router = new Router();
 const pizzaService = new PizzaService()

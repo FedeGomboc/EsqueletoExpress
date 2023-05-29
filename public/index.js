@@ -107,7 +107,10 @@ function Update() {
 }
 
 function Delete() {
-    let url = "http://localhost:3000/api/pizzas/" + deleteId.value
+    let id = document.getElementById("deleteId").value;
+    let url = "http://localhost:3000/api/pizzas/" + id;
+    console.log(url);
+
 
     document.getElementById("deleteId").value = '';
 
