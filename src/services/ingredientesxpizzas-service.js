@@ -23,7 +23,21 @@ class IngredientesXPizzaService {
             let pool = await sql.connect(config);
             let result = await pool.request()
                 .input("pId", sql.Int, id)
-                .query('SELECT * FROM IngredientesXPizzas WHERE id = @pId');
+                .query(`
+                SELECT 
+                    IngredientesXPizzas.Id AS Id, 
+                    Ingredientes.Id AS IdIngrediente, 
+                    Ingredientes.Nombre AS Nombre, 
+                    IngredientesXPizzas.Cantidad AS Cantidad, 
+                    Unidades.Id AS IdUnidad, 
+                    Unidades.Nombre AS Unidad 
+                    FROM IngredientesXPizzas
+
+                INNER JOIN Ingredientes ON IngredientesXPizzas.IdIngrediente = Ingredientes.Id
+                INNER JOIN Unidades ON IngredientesXPizzas.IdUnidad = Unidades.Id
+
+                WHERE IngredientesXPizzas.IdPizza = @pId
+                    `);
             returnEntity = result.recordsets[0][0]
 
         } catch (error) {

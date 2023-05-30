@@ -1,6 +1,7 @@
 import express from "express";
 import cors from  'cors'
 import routerPizza from "./controllers/pizzaController.js";
+import routerIngXPizza from './controllers/ingredienteXpizzaController.js'
 
 const app = express()
 
@@ -9,6 +10,7 @@ app.use(express.json());
 app.use(cors());
 app.use(express.static('public'))
 app.use('/api/pizzas', routerPizza)
+app.use('/api/ingredientesXpizzas', routerIngXPizza)
 
  /* let svc = new PizzaService()
 
