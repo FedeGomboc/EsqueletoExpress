@@ -1,5 +1,6 @@
 import config from './../../dbconfig.js'
 import sql from 'mssql'
+import IngredientesXPizzaService from './ingredientesxpizzas-service.js'
 
 class PizzaService {
     getAll = async () => {
@@ -17,7 +18,7 @@ class PizzaService {
         return returnEntity;
     }
 
-    getById = async (id) => {
+    getById = async (id, incluirIngredientes) => {
         let returnEntity = null
         console.log('Estoy en PizzaService.GetById(id)')
         try {
@@ -31,7 +32,10 @@ class PizzaService {
             console.log(error)
         }
 
-    //if incluirIngredientes
+        if (returnEntity !== null && incluirIngredientes === true){
+            let svc = new IngredientesXPizzaService
+            returnEntity.Ingredientes = await svc.getById(id)
+        }
 
         return returnEntity;
     }

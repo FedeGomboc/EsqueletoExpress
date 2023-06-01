@@ -38,7 +38,7 @@ class IngredientesXPizzaService {
 
                 WHERE IngredientesXPizzas.IdPizza = @pId
                     `);
-            returnEntity = result.recordsets[0][0]
+            returnEntity = result.recordsets[0]
 
         } catch (error) {
             console.log(error)

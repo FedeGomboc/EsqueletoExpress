@@ -20,7 +20,9 @@ router.get('', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     let respuesta
-    const pizza = await pizzaService.getById(req.params.id)
+    let incluirIngredientes = (typeof req.query.incluirIngredientes !== 'undefined' && req.query.incluirIngredientes.toLowerCase() === 'true')
+
+    const pizza = await pizzaService.getById(req.params.id, incluirIngredientes)
     
     if (pizza != null){
         respuesta = res.status(StatusCodes.OK).json(pizza)
