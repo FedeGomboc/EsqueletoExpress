@@ -2,6 +2,8 @@ import express from "express";
 import cors from  'cors'
 import routerPizza from "./controllers/pizzaController.js";
 import routerIngXPizza from './controllers/ingredienteXpizzaController.js'
+import routerUnidad from './controllers/unidadController.js'
+import routerIngrediente from './controllers/ingredienteController.js'
 
 const app = express()
 
@@ -11,6 +13,8 @@ app.use(cors());
 app.use(express.static('public'))
 app.use('/api/pizzas', routerPizza)
 app.use('/api/ingredientesXpizzas', routerIngXPizza)
+app.use('/api/unidades', routerUnidad)
+app.use('/api/ingredientes', routerIngrediente)
 
  /* let svc = new PizzaService()
 

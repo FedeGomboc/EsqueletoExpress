@@ -25,11 +25,8 @@ class IngredientesXPizzaService {
                 .input("pId", sql.Int, id)
                 .query(`
                 SELECT 
-                    IngredientesXPizzas.Id AS Id, 
-                    Ingredientes.Id AS IdIngrediente, 
                     Ingredientes.Nombre AS Nombre, 
                     IngredientesXPizzas.Cantidad AS Cantidad, 
-                    Unidades.Id AS IdUnidad, 
                     Unidades.Nombre AS Unidad 
                     FROM IngredientesXPizzas
 
@@ -65,42 +62,6 @@ class IngredientesXPizzaService {
             console.log(error)
         }
         return rowsAffected
-    }
-
-    update = async (ingredienteXPizza) => {
-        let rowsAffected = 0
-        console.log('Estoy en IngredientesXPizzaService.Update(ingredienteXpizza)')
-        try {
-            let pool = await sql.connect(config);
-            let result = await pool.request()
-                .input('pId', sql.Int, ingredienteXPizza.Id)
-                .input('pIdPizza', sql.Int, ingredienteXPizza.IdPizza)
-                .input('pIdIngrediente', sql.Int, ingredienteXPizza.IdIngrediente)
-                .input('pCantidad', sql.Int, ingredienteXPizza.Cantidad)
-                .input('pIdUnidad', sql.Int, ingredienteXPizza.IdUnidad)
-                .query('UPDATE IngredientesXPizzas SET IdPizza = @IdPizza, IdIngrediente = @IdIngrediente, Cantidad = @Cantidad, IdUnidad = @IdUnidad WHERE Id = @Id');
-            rowsAffected = result.rowsAffected;
-            console.log('IngredienteXPizza actualizado')
-
-        } catch (error) {
-            console.log(error)
-        }
-        return rowsAffected
-    }
-
-    deleteById = async (id) => {
-        let rowsAffected = 0;
-        console.log('Estoy en IngredientesXPizzaService.DeleteById(id)')
-        try {
-            let pool = await sql.connect(config);
-            let result = await pool.request()
-                .input('pId', sql.Int, id)
-                .query('DELETE FROM IngredientesXPizzas WHERE id = @pId');
-            rowsAffected = result.rowsAffected;
-        } catch (error) {
-            console.log(error)
-        }
-        return rowsAffected;
     }
 }
 

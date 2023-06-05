@@ -10,7 +10,7 @@ router.get('', async (req, res) => {
     const lista = await ingredientesXPizzasService.getAll()
 
     if (lista != null){
-        respuesta = res.status(StatusCodes.OK).json(listaPizzas)
+        respuesta = res.status(StatusCodes.OK).json(lista)
     } else {
         respuesta = res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Error interno")
     }
@@ -35,23 +35,6 @@ router.post('', async (req, res) => {
     const pizzaNueva = await ingredientesXPizzasService.insert(req.body)
     
     return res.status(StatusCodes.CREATED).json(pizzaNueva)
-})
-
-router.put('', async (req, res) => {
-    const updatePizza = await ingredientesXPizzasService.update(req.body)
-
-    return res.status(StatusCodes.OK).json(updatePizza)
-})
-
-router.delete('/:id', async (req, res) => {
-    let respuesta 
-    const deletePizza = await ingredientesXPizzasService.deleteById(req.params.id)
-    
-    if (deletePizza != 0){
-        respuesta = res.status(StatusCodes.OK).json(respuesta)
-    } else {
-        respuesta = res.status(StatusCodes.NOT_FOUND).send(`No se encontró el IngredienteXPizza (ID: ${req.params.id})`)
-    }
 })
 
 export default router;
