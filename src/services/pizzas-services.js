@@ -3,7 +3,7 @@ import sql from 'mssql'
 import IngredientesXPizzaService from './ingredientesxpizzas-service.js'
 
 class PizzaService {
-    getAll = async () => {
+    getAll = async (incluirIngredientes) => {
         let returnEntity = null
         console.log('Estoy en PizzaService.GetAll')
         try {
