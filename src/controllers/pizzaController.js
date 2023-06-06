@@ -7,7 +7,8 @@ const pizzaService = new PizzaService()
 
 router.get('', async (req, res) => {
     let respuesta
-    const listaPizzas = await pizzaService.getAll()
+    let incluirIngredientes = (typeof req.query.incluirIngredientes !== 'undefined' && req.query.incluirIngredientes.toLowerCase() === 'true')
+    const listaPizzas = await pizzaService.getAll(incluirIngredientes)
 
     if (listaPizzas != null){
         respuesta = res.status(StatusCodes.OK).json(listaPizzas)

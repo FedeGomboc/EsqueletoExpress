@@ -8,8 +8,17 @@ class IngredientesXPizzaService {
         try {
             let pool = await sql.connect(config);
             let result = await pool.request()
-                .query('SELECT * FROM IngredientesXPizzas');
-            returnEntity = result.recordsets[0]
+                .query(
+                `SELECT 
+                Ingredientes.Nombre AS Nombre, 
+                IngredientesXPizzas.Cantidad AS Cantidad, 
+                Unidades.Nombre AS Unidad 
+                FROM IngredientesXPizzas
+                
+                INNER JOIN Ingredientes ON IngredientesXPizzas.IdIngrediente = Ingredientes.Id
+                INNER JOIN Unidades ON IngredientesXPizzas.IdUnidad = Unidades.Id`);
+            
+                returnEntity = result.recordsets[0]
         } catch (error) {
             console.log(error)
         }

@@ -15,6 +15,12 @@ class PizzaService {
         } catch (error) {
             console.log(error)
         }
+
+        if (returnEntity !== null && incluirIngredientes === true){
+            let svc = new IngredientesXPizzaService
+            returnEntity.Ingredientes = await svc.getAll()
+        }
+
         return returnEntity;
     }
 
