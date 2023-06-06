@@ -5,9 +5,39 @@ import routerIngXPizza from './controllers/ingredienteXpizzaController.js'
 import routerUnidad from './controllers/unidadController.js'
 import routerIngrediente from './controllers/ingredienteController.js'
 
+import { StatusCodes } from "http-status-codes"
+
 const app = express()
 
 //Inclusion de los Middlewares
+
+const tiempoTranscurridoMiddleware = function (req, res, next) {
+    const inicio = Date.now();
+
+    res.on('finish', () => {
+        const fin = Date.now();
+        const tiempoTranscurrido = fin - inicio;
+        console.log(`Tiempo de procesamiento: ${tiempoTranscurrido} ms`)
+    })
+
+    next();
+}
+
+const apikeyMiddleware = function (req,res,next) {
+    const clave = 123456789;
+
+    if (req.headers.APIKEY === clave){
+        next();
+    }   
+    else 
+    {
+        return res.status(401).send("Unauthorized, es necesario una ApiKey Valida");
+    }
+}
+
+app.use(tiempoTranscurridoMiddleware)
+app.use(apikeyMiddleware);
+
 app.use(express.json());
 app.use(cors());
 app.use(express.static('public'))
