@@ -5,11 +5,13 @@ import routerIngXPizza from './controllers/ingredienteXpizzaController.js'
 import routerUnidad from './controllers/unidadController.js'
 import routerIngrediente from './controllers/ingredienteController.js'
 
-import { StatusCodes } from "http-status-codes"
-
 const app = express()
 
 //Middlewares opcionales
+
+const autenticacionMiddleware = function (req, res, next) {
+    
+}
 
 const tiempoTranscurridoMiddleware = function (req, res, next) {
     const inicio = Date.now();
@@ -19,7 +21,6 @@ const tiempoTranscurridoMiddleware = function (req, res, next) {
         const tiempoTranscurrido = fin - inicio;
         console.log(`Tiempo de procesamiento: ${tiempoTranscurrido} ms`)
     })
-
     next();
 }
 
@@ -46,8 +47,8 @@ app.use(tiempoTranscurridoMiddleware);
 app.use(apikeyMiddleware);
 app.use(createdByMiddleware);
 
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
 app.use(express.static('public'));
 
 //Estos se van a ejecutar cuando se mande esa ruta en especifico
