@@ -10,16 +10,16 @@ class UsuariosService {
     console.log("Estoy en UsuariosService.login(usuario)");
 
     respuesta = await this.getByUsernamePassword(
-      usuario.UserName,
-      usuario.PassWord
+      usuario.userName,
+      usuario.password
     );
 
     if (respuesta != null) {
-      token = await this.refreshTokenById(respuesta.Id);
+      token = await this.refreshTokenById(respuesta.id);
       if (token != null) {
         respuesta = await this.getByUsernamePassword(
-          usuario.UserName,
-          usuario.PassWord
+          usuario.userName,
+          usuario.password
         );
       }
     }
@@ -27,7 +27,7 @@ class UsuariosService {
     return respuesta;
   };
 
-  getByUsernamePassword = async (UserName, Password) => {
+  getByUsernamePassword = async (userName, password) => {
     let respuesta = null;
     console.log("Estoy en UsuariosService.GetByUsernamePassword(id)");
 
@@ -35,9 +35,9 @@ class UsuariosService {
       let pool = await sql.connect(config);
       let result = await pool
         .request()
-        .input("pUserName", sql.VarChar, UserName)
-        .input("pPassword", sql.VarChar, Password)
-        .query(`SELECT * FROM Usuarios WHERE UserName = @pUserName`);
+        .input("pUserName", sql.VarChar, userName)
+        .input("pPassword", sql.VarChar, password)
+        .query(`SELECT * FROM Usuarios WHERE userName = @pUserName`);
       respuesta = result.recordsets[0][0];
     } catch (error) {
       console.log(error);
@@ -48,29 +48,37 @@ class UsuariosService {
   refreshTokenById = async (id) => {
     let rowsAffected = 0
     let token = crypto.randomUUID()
-    let expirationDate = this. 
+    let expirationDate = this.addMinutes(15, new Date())
     console.log(token)
 
-
+    try {
+      let result = await pool
+        .request()
+        .input("pToken", sql.VarChar, token)
+        .input("pId", sql.Int, id)
+        .input("pExpirationDate", sql.VarChar, (await expirationDate).toISOString)
+        .query(`UPDATE Usuarios SET TOKEN = @pToken, TokenExpirationDate = @pExpirationDate WHERE Id = @pId`);
+      rowsAffected = result.rowsAffected
+    }
+    catch (error) {
+      console.log(error)
+    }
+    return rowsAffected
   };
 
   addMinutes = async (minutes, date) => {
 
-/* // creacion de un metodo  addMins para la clase Date
-Date.prototype.addMins = function(m) {     
-    this.setTime(this.getTime() + (m*60*1000));  // minutos * seg * milisegundos
-    return this;    
- } 
- 
- // asignacion de valores de tiempo y suma de minutos en metodo addMins()
- var actividad = '2019-09-13 06:45:00';
- var fechaI2 = new Date (actividad);
- minutoSumar = 45;
- 
- fechaI2.addMins(minutoSumar);
- console.log(fechaI2);
- 
- */
+    if (typeof minutes !== 'number') {
+      throw new Error('Invalid "minutes" argument')
+    }
+
+    if (!(date instanceof Date)) {
+      throw new Error('Invalid "date" argument')
+    }
+
+    date.setMinutes(date.getMinutes() + minutes)
+
+    return date
   }
 }
 
