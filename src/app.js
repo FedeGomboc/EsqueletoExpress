@@ -10,7 +10,18 @@ const app = express()
 //Middlewares opcionales
 
 const autenticacionMiddleware = function (req, res, next) {
-    
+    let token;
+    let usuario;
+    let fechaAhora = new Date()
+    let TokenExpirationDate = null
+    let newExpirationDate = null
+    let rowsAffected = 0
+
+    if (req.path.toLowerCase().startsWith("/public/")) return next()
+    if (req.path.toLowerCase().startsWith("/api/ingredientesXpizzas")) return next()
+    if (req.path.toLowerCase().startsWith("/api/unidades")) return next()
+    if (req.path.toLowerCase().startsWith("/api/ingredientes")) return next()
+
 }
 
 const tiempoTranscurridoMiddleware = function (req, res, next) {
