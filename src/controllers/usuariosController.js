@@ -7,10 +7,13 @@ const svc = new UsuariosService()
 
 router.post("/login", async (req,res) => {
     let respuesta
-    let returnEntity = await svc.login(req.body)
+    let entidad = req.body
+    let returnEntity 
+    
+    returnEntity = await svc.login(entidad)
 
     if (returnEntity != null){
-        returnEntity.password = '*'.repeat(returnEntity.password.length)
+        returnEntity.password = '*'.repeat(10)
         respuesta = res.status(StatusCodes.OK).json(returnEntity)
     } else {
         respuesta = res.status(StatusCodes.NOT_FOUND).send("Usuario inexistente")

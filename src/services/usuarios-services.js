@@ -1,21 +1,37 @@
 import config from "./../../dbconfig.js";
 import sql from "mssql";
-import crypto from "crypto"
+import crypto from "crypto";
 
 class UsuariosService {
-
   login = async (usuario) => {
-    let respuesta = null;
+    let respuesta;
     let token;
 
     console.log("Estoy en UsuariosService.login(usuario)");
 
-    respuesta = await this.getByUsernamePassword(usuario.userName, usuario.password);
+    respuesta = await this.getByUsernamePassword(
+      usuario.userName,
+      usuario.password
+    );
 
     if (respuesta != null) {
-      token = await this.refreshTokenById(respuesta.id);
+
+      console.log("el usuario existe");
+
+      if ((respuesta.token == null) || (respuesta.expirationDate == null)) {
+        token = await this.generateTokenById(respuesta.id)
+      }
+      else {
+        token = await this.refreshTokenById(respuesta.id, respuesta.token, respuesta.expirationDate);
+      }
+
       if (token != null) {
-        respuesta = await this.getByUsernamePassword(usuario.userName, usuario.password);
+
+        respuesta = await this.getByUsernamePassword(
+          usuario.userName,
+          usuario.password
+
+        );
       }
     }
 
@@ -23,8 +39,10 @@ class UsuariosService {
   };
 
   getByUsernamePassword = async (userName, password) => {
-    let respuesta = null;
-    console.log("Estoy en UsuariosService.GetByUsernamePassword(id)");
+    let respuesta;
+    console.log(
+      "Estoy en UsuariosService.GetByUsernamePassword(userName, password)"
+    );
 
     try {
       let pool = await sql.connect(config);
@@ -32,8 +50,8 @@ class UsuariosService {
         .request()
         .input("pUserName", sql.VarChar, userName)
         .input("pPassword", sql.VarChar, password)
-        .query(`SELECT * FROM Usuarios WHERE userName = @pUserName`);
-      respuesta = result.recordsets[0][0];
+        .query(`SELECT * FROM Usuarios WHERE UserName = @pUserName`);
+      respuesta = result.recordsets[0];
     } catch (error) {
       console.log(error);
     }
@@ -58,52 +76,65 @@ class UsuariosService {
   };
 
   generateTokenById = async (id) => {
-    let rowsAffected = 0
-    let token = crypto.randomUUID()
-    let expirationDate = this.addMinutes(15, new Date())
-    console.log(token)
+    console.log("Estoy en UsuariosService.GenerateTokenById");
+
+    let rowsAffected = 0;
+    let token = crypto.randomUUID();
+    let expirationDate = this.addMinutes(15, new Date());
+    console.log(token);
+    console.log(expirationDate)
 
     try {
-      rowsAffected = await this.refreshTokenById(id, token, expirationDate)
+      rowsAffected = await this.refreshTokenById(id, token, expirationDate);
+    } catch (error) {
+      console.log(error);
     }
-    catch (error) {
-      console.log(error)
-    }
-    return rowsAffected
+    return rowsAffected;
   };
 
   refreshTokenById = async (id, token, expirationDate) => {
-    let rowsAffected = 0
+    console.log("Estoy en UsuariosService.RefreshTokenById");
+
+    let rowsAffected = 0;
+
+    console.log(typeof expirationDate)
+    console.log(expirationDate instanceof Date);
 
     try {
-      let pool = await sql.connect(config)
-      let result = await pool.request()
+      let pool = await sql.connect(config);
+      let result = await pool
+        .request()
         .input("pToken", sql.VarChar, token)
         .input("pId", sql.Int, id)
-        .input("pExpirationDate", sql.VarChar, expirationDate.toISOString)
-        .query(`UPDATE Usuarios SET TOKEN = @pToken, TokenExpirationDate = @pExpirationDate WHERE Id = @pId`);
-      rowsAffected = result.rowsAffected
+        .input("pExpirationDate", sql.VarChar, expirationDate.toISOString())
+        .query(
+          `UPDATE Usuarios SET Token = @pToken, TokenExpirationDate = @pExpirationDate WHERE Id = @pId`
+        );
+      rowsAffected = result.rowsAffected;
+    } catch (error) {
+      console.log(error);
     }
-    catch (error){
-      console.log(error)
-    }
-    return rowsAffected
-  }
+    return rowsAffected;
+  };
 
   addMinutes = async (minutes, date) => {
+    console.log("Estoy en UsuariosService.addMinutes");
 
-    if (typeof minutes !== 'number') {
-      throw new Error('Invalid "minutes" argument')
+    if (typeof minutes !== "number") {
+      throw new Error('Invalid "minutes" argument');
     }
 
     if (!(date instanceof Date)) {
-      throw new Error('Invalid "date" argument')
+      throw new Error('Invalid "date" argument');
     }
 
-    date.setMinutes(date.getMinutes() + minutes)
+    console.log(typeof date);
 
-    return date
-  }
+    date.setMinutes(date.getMinutes() + minutes);
+    console.log(typeof date);
+
+    return date;
+  };
 }
 
 export default UsuariosService;
