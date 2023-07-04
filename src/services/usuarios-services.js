@@ -22,7 +22,7 @@ class UsuariosService {
         token = await this.generateTokenById(respuesta.id)
       }
       else {
-        token = await this.refreshTokenById(respuesta.id, respuesta.token, respuesta.expirationDate);
+        token = await this.refreshTokenById(respuesta.id, respuesta.token, respuesta.TokenExpirationDate);
       }
 
       if (token != null) {
@@ -75,14 +75,16 @@ class UsuariosService {
     return respuesta;
   };
 
-  generateTokenById = async (id) => {
-    console.log("Estoy en UsuariosService.GenerateTokenById");
+    generateTokenById = async (id) => {
+      console.log("Estoy en UsuariosService.GenerateTokenById");
 
-    let rowsAffected = 0;
+      let rowsAffected = 0;
     let token = crypto.randomUUID();
-    let expirationDate = this.addMinutes(15, new Date());
-    console.log(token);
+    let expirationDate = new Date();
+    expirationDate.setMinutes(expirationDate.getMinutes() + 15)
     console.log(expirationDate)
+    console.log(typeof expirationDate)
+
 
     try {
       rowsAffected = await this.refreshTokenById(id, token, expirationDate);
@@ -98,7 +100,6 @@ class UsuariosService {
     let rowsAffected = 0;
 
     console.log(typeof expirationDate)
-    console.log(expirationDate instanceof Date);
 
     try {
       let pool = await sql.connect(config);
@@ -106,7 +107,7 @@ class UsuariosService {
         .request()
         .input("pToken", sql.VarChar, token)
         .input("pId", sql.Int, id)
-        .input("pExpirationDate", sql.VarChar, expirationDate.toISOString())
+        .input("pExpirationDate", sql.DateTime, expirationDate)
         .query(
           `UPDATE Usuarios SET Token = @pToken, TokenExpirationDate = @pExpirationDate WHERE Id = @pId`
         );
@@ -128,10 +129,7 @@ class UsuariosService {
       throw new Error('Invalid "date" argument');
     }
 
-    console.log(typeof date);
-
     date.setMinutes(date.getMinutes() + minutes);
-    console.log(typeof date);
 
     return date;
   };
